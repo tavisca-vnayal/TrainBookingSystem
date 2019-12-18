@@ -1,7 +1,5 @@
 package com.tavisca.OnlineTrainBookingSystem.train.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tavisca.OnlineTrainBookingSystem.train.dao.TrainRepository;
 import com.tavisca.OnlineTrainBookingSystem.train.model.Train;
 import org.springframework.beans.factory.annotation.Autowired;

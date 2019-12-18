@@ -14,17 +14,7 @@ public class Train {
     private int stops;
     private int capacity;
 
-    private List<Station> stations;
-
     public Train() {
-    }
-
-    public List<Station> getStations() {
-        return stations;
-    }
-
-    public void setStations(List<Station> stations) {
-        this.stations = stations;
     }
 
     public int getTrainNo() {
