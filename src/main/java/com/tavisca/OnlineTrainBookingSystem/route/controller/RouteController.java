@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -32,8 +33,37 @@ public class RouteController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+
+    @GetMapping(path = "/routes/{id}")
+
+    public ResponseEntity<?> getRouteByTrainNo(@PathVariable("id") int trainNo) {
+
+        Optional<List<Route>> routeByTrainNo = routeService.getRouteByTrainNo(trainNo);
+
+        if (routeByTrainNo.isPresent())
+            return new ResponseEntity<>(routeByTrainNo, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
+    @GetMapping(path = "/routeTrains/{id}")
+    public ResponseEntity<?> getTrainNoByStationName(@PathVariable("id") String stationName) {
+
+        Optional<List<Route>> trainNoByStationName = routeService.getTrainNoByStationName(stationName);
+
+        if (trainNoByStationName.isPresent())
+            return new ResponseEntity<>(trainNoByStationName, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
     @PostMapping(path = "/route")
     public ResponseEntity<?> addRoute(@RequestBody Route route) {
+
+        System.out.println(route);
+
         routeService.addRoute(route);
         if ((routeService.getRouteById(route.getRouteId()).isPresent()))
             return new ResponseEntity<>(route, HttpStatus.CREATED);

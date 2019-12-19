@@ -15,3 +15,9 @@
         "noOfWaitingListTicket": 0,
         "noOfConfrimedTicket": 0
 }
+
+{
+   "trainNo": 112,
+   "stationName": "Pune",
+   "arrivalTime": "2014-04-28T16:00:49.455"
+}

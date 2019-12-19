@@ -2,6 +2,7 @@ package com.tavisca.OnlineTrainBookingSystem.route.service;
 
 import com.tavisca.OnlineTrainBookingSystem.route.dao.RouteRepository;
 import com.tavisca.OnlineTrainBookingSystem.route.model.Route;
+import com.tavisca.OnlineTrainBookingSystem.train.model.Train;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +41,13 @@ public class RouteService {
     public String deleteRoute(int routeId) {
         routeRepo.deleteById(routeId);
         return "Deleted";
+    }
+
+    public Optional<List<Route>> getRouteByTrainNo(int trainNo) {
+        return routeRepo.findByTrainNo(trainNo);
+    }
+
+    public Optional<List<Route> > getTrainNoByStationName(String stationName) {
+        return routeRepo.findByStationName(stationName);
     }
 }

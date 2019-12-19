@@ -5,16 +5,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 public class Route {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int routeId;
 
     private int trainNo;
     private String stationName;
-    private Timestamp arrivalTime;
+    private LocalDateTime arrivalTime;
 
     public Route() {
     }
@@ -43,11 +44,21 @@ public class Route {
         this.stationName = stationName;
     }
 
-    public Timestamp getArrivalTime() {
+    public LocalDateTime getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(Timestamp arrivalTime) {
+    public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "routeId=" + routeId +
+                ", trainNo=" + trainNo +
+                ", stationName='" + stationName + '\'' +
+                ", arrivalTime=" + arrivalTime +
+                '}';
     }
 }
