@@ -25,12 +25,12 @@ public class BookingService {
         return bookings;
     }
 
-    public Optional<Booking> getBookingByRouteId(int routeId) {
-        Optional<Booking> booking = routeRepo.findById(routeId);
-        return booking;
-    }
+//    public Optional<Booking> getBookingByRouteId(int routeId) {
+//        Optional<Booking> booking = routeRepo.findById(routeId);
+//        return booking;
+//    }
 
-    public Optional<Booking> getBookingByRouteIdAndDate(int routeId, Date date) {
+    public Optional<Booking> getBookingByRouteIdAndDate(int routeId, LocalDate date) {
         Optional<Booking> booking = routeRepo.findByRouteIdAndDate(routeId, date);
 
         if(booking.isPresent())
@@ -51,16 +51,16 @@ public class BookingService {
         return "Updated";
     }
 
-    public String deleteBooking(int routeId) {
-        routeRepo.deleteById(routeId);
-        return "Deleted";
-    }
+//    public String deleteBooking(int routeId) {
+//        routeRepo.deleteById(routeId);
+//        return "Deleted";
+//    }
 
-    public Date getDate(String dateFromUI) {
-        JSONObject jsonObject = new JSONObject(dateFromUI);
-        Date date = Date.valueOf(jsonObject.getString("date"));
-        return date;
-    }
+//    public Date getDate(String dateFromUI) {
+////        JSONObject jsonObject = new JSONObject(dateFromUI);
+//        Date date = Date.valueOf(dateFromUI);
+//        return date;
+//    }
 
 
 }

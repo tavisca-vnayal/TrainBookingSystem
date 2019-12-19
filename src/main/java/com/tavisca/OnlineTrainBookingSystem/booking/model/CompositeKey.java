@@ -3,15 +3,16 @@ package com.tavisca.OnlineTrainBookingSystem.booking.model;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class CompositeKey implements Serializable {
     private int routeId;
-    private Date date;
+    private LocalDate date;
 
     public CompositeKey() {
     }
 
-    public CompositeKey(int routeId, Date date) {
+    public CompositeKey(int routeId, LocalDate date) {
         this.routeId = routeId;
         this.date = date;
     }
@@ -24,11 +25,11 @@ public class CompositeKey implements Serializable {
         this.routeId = routeId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }

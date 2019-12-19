@@ -7,6 +7,7 @@ import javax.persistence.Id;
 public class Train {
     @Id
     private int trainNo;
+
     private String trainName;
     private String source;
     private String destination;
