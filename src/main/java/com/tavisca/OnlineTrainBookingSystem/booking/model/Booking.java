@@ -2,19 +2,31 @@ package com.tavisca.OnlineTrainBookingSystem.booking.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 @Entity
+@IdClass(CompositeKey.class)
 public class Booking {
 
+    @Id
     private int routeId;
+    @Id
     private Date date;
+
     private int noOfConfirmedTicket;
     private int noOfRACTicket;
     private int noOfWaitingListTicket;
 
     public Booking() {
+    }
+
+    public Booking(int routeId, Date date, int noOfConfirmedTicket, int noOfRACTicket, int noOfWaitingListTicket) {
+        this.routeId = routeId;
+        this.date = date;
+        this.noOfConfirmedTicket = noOfConfirmedTicket;
+        this.noOfRACTicket = noOfRACTicket;
+        this.noOfWaitingListTicket = noOfWaitingListTicket;
     }
 
     public int getRouteId() {

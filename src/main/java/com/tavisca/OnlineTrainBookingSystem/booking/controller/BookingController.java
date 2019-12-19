@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -24,11 +27,14 @@ public class BookingController {
     }
 
     @GetMapping(path = "/booking/{id}")
-    public ResponseEntity<?> getBookingRouteById(@PathVariable("id") int routeId) {
-        if (bookingService.getBookingByRouteId(routeId).isPresent())
-            return new ResponseEntity<>(bookingService.getBookingByRouteId(routeId), HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> getBookingRouteIdAndDate(@PathVariable("id") int routeId,
+                                                 @RequestBody String dateFromUI) {
+
+        Date date = bookingService.getDate(dateFromUI);
+        System.out.println(date);
+        Optional<Booking> booking=bookingService.getBookingByRouteIdAndDate(routeId, date);
+
+        return new ResponseEntity<>(booking, HttpStatus.OK);
     }
 
     @PostMapping(path = "/booking")

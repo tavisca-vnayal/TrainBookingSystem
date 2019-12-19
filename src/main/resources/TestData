@@ -1,0 +1,17 @@
+{
+  "trainNo": 12345,
+  "trainName": "Garibrath",
+  "source": "Pune",
+  "destination": "Mumbai",
+  "stops": 10,
+  "capacity": 100
+}
+
+
+{
+        "routeId": 1,
+        "date": "2019-01-01",
+        "noOfRACTicket": 0,
+        "noOfWaitingListTicket": 0,
+        "noOfConfrimedTicket": 0
+}

@@ -9,7 +9,7 @@ public class Route {
     @Id
     private int routeId;
 
-    private int trainId;
+    private int trainNo;
     private String stationName;
     private Timestamp arrivalTime;
 
@@ -24,12 +24,12 @@ public class Route {
         this.routeId = routeId;
     }
 
-    public int getTrainId() {
-        return trainId;
+    public int getTrainNo() {
+        return trainNo;
     }
 
-    public void setTrainId(int trainId) {
-        this.trainId = trainId;
+    public void setTrainNo(int trainNo) {
+        this.trainNo = trainNo;
     }
 
     public String getStationName() {

@@ -2,9 +2,12 @@ package com.tavisca.OnlineTrainBookingSystem.booking.service;
 
 import com.tavisca.OnlineTrainBookingSystem.booking.dao.BookingRepository;
 import com.tavisca.OnlineTrainBookingSystem.booking.model.Booking;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +30,17 @@ public class BookingService {
         return booking;
     }
 
+    public Optional<Booking> getBookingByRouteIdAndDate(int routeId, Date date) {
+        Optional<Booking> booking = routeRepo.findByRouteIdAndDate(routeId, date);
+
+        if(booking.isPresent())
+            return booking;
+        else
+            addBooking(new Booking(routeId, date, 0, 0, 0));
+
+        return booking;
+    }
+
     public String addBooking(Booking booking) {
         routeRepo.save(booking);
         return "Added";
@@ -41,4 +55,12 @@ public class BookingService {
         routeRepo.deleteById(routeId);
         return "Deleted";
     }
+
+    public Date getDate(String dateFromUI) {
+        JSONObject jsonObject = new JSONObject(dateFromUI);
+        Date date = Date.valueOf(jsonObject.getString("date"));
+        return date;
+    }
+
+
 }
