@@ -38,7 +38,7 @@ public class TrainController {
     }
 
     @PostMapping(path = "/train")
-    public ResponseEntity<?> addTrain(@RequestBody Train train) throws JsonProcessingException {
+    public ResponseEntity<?> addTrain(@RequestBody Train train)  {
         trainService.addTrain(train);
         if ((trainService.getTrainById(train.getTrainNo()).isPresent()))
             return new ResponseEntity<>(train, HttpStatus.CREATED);
@@ -47,7 +47,7 @@ public class TrainController {
     }
 
     @PutMapping(path = "/train/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int trainId, @RequestBody Train train) throws JsonProcessingException {
+    public ResponseEntity<?> update(@PathVariable("id") int trainId, @RequestBody Train train) {
         if((trainService.getTrainById(trainId).isPresent())) {
             trainService.updateTrain(train);
             return new ResponseEntity<>(train, HttpStatus.CREATED);

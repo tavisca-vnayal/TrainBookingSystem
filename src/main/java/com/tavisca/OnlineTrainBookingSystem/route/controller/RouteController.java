@@ -33,7 +33,7 @@ public class RouteController {
     }
 
     @PostMapping(path = "/route")
-    public ResponseEntity<?> addRoute(@RequestBody Route route) throws JsonProcessingException {
+    public ResponseEntity<?> addRoute(@RequestBody Route route) {
         routeService.addRoute(route);
         if ((routeService.getRouteById(route.getRouteId()).isPresent()))
             return new ResponseEntity<>(route, HttpStatus.CREATED);
@@ -42,7 +42,7 @@ public class RouteController {
     }
 
     @PutMapping(path = "/route/{id}")
-    public ResponseEntity<?> updateRoute(@PathVariable("id") int routeId, @RequestBody Route route) throws JsonProcessingException {
+    public ResponseEntity<?> updateRoute(@PathVariable("id") int routeId, @RequestBody Route route){
         if((routeService.getRouteById(routeId).isPresent())) {
             routeService.updateRoute(route);
             return new ResponseEntity<>(route, HttpStatus.CREATED);

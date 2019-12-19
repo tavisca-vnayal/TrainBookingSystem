@@ -2,7 +2,6 @@ package com.tavisca.OnlineTrainBookingSystem.train.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.List;
 
 @Entity
 public class Train {
@@ -11,7 +10,7 @@ public class Train {
     private String trainName;
     private String source;
     private String destination;
-    private int stops;
+    private int noOfStop;
     private int capacity;
 
     public Train() {
@@ -49,12 +48,12 @@ public class Train {
         this.destination = destination;
     }
 
-    public int getStops() {
-        return stops;
+    public int getNoOfStop() {
+        return noOfStop;
     }
 
-    public void setStops(int stops) {
-        this.stops = stops;
+    public void setNoOfStop(int noOfStop) {
+        this.noOfStop = noOfStop;
     }
 
     public int getCapacity() {
