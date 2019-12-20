@@ -54,7 +54,7 @@ public class Route {
 
     @Override
     public String toString() {
-        return "Route{" +
+        return "Ticket{" +
                 "routeId=" + routeId +
                 ", trainNo=" + trainNo +
                 ", stationName='" + stationName + '\'' +

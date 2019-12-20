@@ -21,3 +21,17 @@
    "stationName": "Pune",
    "arrivalTime": "2014-04-28T16:00:49.455"
 }
+
+
+{
+   "userId":12345,
+   "trainNo":112,
+   "source":"Mumbai",
+   "destination":"Pune",
+   "date":"2019-12-20",
+   "seats":[{
+   	"passengerName":"XYZ",
+   	"seatStatus":"CNF",
+   	"seatIndex":"1"
+   }]
+}

@@ -29,7 +29,9 @@ public class BookingController {
 
     @GetMapping(path = "/booking/{id}")
     public ResponseEntity<?> getBookingRouteIdAndDate(@PathVariable("id") int routeId,
-                                                 @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+                                                 @RequestParam("date")
+                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                         LocalDate date) {
 
         System.out.println(date.getClass());
         Optional<Booking> booking=bookingService.getBookingByRouteIdAndDate(routeId, date);
