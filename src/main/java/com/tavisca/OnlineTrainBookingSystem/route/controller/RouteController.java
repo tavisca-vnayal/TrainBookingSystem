@@ -35,7 +35,6 @@ public class RouteController {
 
 
     @GetMapping(path = "/routes/{id}")
-
     public ResponseEntity<?> getRouteByTrainNo(@PathVariable("id") int trainNo) {
 
         Optional<List<Route>> routeByTrainNo = routeService.getRouteByTrainNo(trainNo);
@@ -45,7 +44,6 @@ public class RouteController {
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
 
     @GetMapping(path = "/routeTrains/{id}")
     public ResponseEntity<?> getTrainNoByStationName(@PathVariable("id") String stationName) {
@@ -58,6 +56,19 @@ public class RouteController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping(path = "/trainArrivalTime/{id}")
+    public ResponseEntity<?> getRouteByTrainNoAndStationName(@PathVariable("id") int trainNo,
+                                                             @RequestParam("stationName")
+                                                                     String stationName) {
+
+        Optional<Route> routeByTrainNoAndStationName = routeService.
+                getRouteByTrainNoAndStationName(trainNo, stationName);
+
+        if (routeByTrainNoAndStationName.isPresent())
+            return new ResponseEntity<>(routeByTrainNoAndStationName, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @PostMapping(path = "/route")
     public ResponseEntity<?> addRoute(@RequestBody Route route) {

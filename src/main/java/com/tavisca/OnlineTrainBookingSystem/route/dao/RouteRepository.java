@@ -14,4 +14,5 @@ public interface RouteRepository extends JpaRepository<Route, Integer> {
 
     Optional<List<Route>> findByStationName(String stationName);
 
+    Optional<Route> findByTrainNoAndStationName(int trainNo, String stationName);
 }

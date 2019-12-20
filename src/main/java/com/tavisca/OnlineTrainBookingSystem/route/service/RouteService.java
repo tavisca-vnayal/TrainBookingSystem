@@ -50,4 +50,8 @@ public class RouteService {
     public Optional<List<Route> > getTrainNoByStationName(String stationName) {
         return routeRepo.findByStationName(stationName);
     }
+
+    public Optional<Route> getRouteByTrainNoAndStationName(int trainNo, String stationName) {
+        return routeRepo.findByTrainNoAndStationName(trainNo, stationName);
+    }
 }
