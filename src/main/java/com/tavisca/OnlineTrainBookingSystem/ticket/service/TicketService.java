@@ -33,7 +33,6 @@ public class TicketService {
 
     public String addTicket(Ticket ticket) {
 
-
         String status = bookingTicketService.bookTicket(ticket);
 
         if(status.equalsIgnoreCase("CNF")){

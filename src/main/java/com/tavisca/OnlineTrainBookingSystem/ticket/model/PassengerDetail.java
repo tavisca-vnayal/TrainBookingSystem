@@ -4,7 +4,7 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class PassengerDetail {
+public class PassengerDetail implements Serializable{
 
     private String passengerName;
     private String seatStatus;
