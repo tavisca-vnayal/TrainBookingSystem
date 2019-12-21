@@ -34,12 +34,14 @@ public class TicketService {
     public String addTicket(Ticket ticket) {
 
 
-        System.out.println("---------------------------------------------------------");
-        System.out.println(bookingTicketService.bookTicket(ticket));
+        String status = bookingTicketService.bookTicket(ticket);
 
-        System.out.println("---------------------------------------------------------");
-        ticketRepo.save(ticket);
-        return "Added";
+        if(status.equalsIgnoreCase("CNF")){
+            ticketRepo.save(ticket);
+            return "Booked";
+        }
+
+        return "not booked";
     }
 
     public String updateTicket(Ticket ticket) {

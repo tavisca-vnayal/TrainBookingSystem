@@ -4,11 +4,11 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class PassengerDetail implements Serializable {
+public class PassengerDetail {
 
     private String passengerName;
     private String seatStatus;
-    private String seatIndex;
+    private int seatIndex;
 
     public PassengerDetail() {
     }
@@ -29,11 +29,11 @@ public class PassengerDetail implements Serializable {
         this.seatStatus = seatStatus;
     }
 
-    public String getSeatIndex() {
+    public int getSeatIndex() {
         return seatIndex;
     }
 
-    public void setSeatIndex(String seatIndex) {
+    public void setSeatIndex(int seatIndex) {
         this.seatIndex = seatIndex;
     }
 
