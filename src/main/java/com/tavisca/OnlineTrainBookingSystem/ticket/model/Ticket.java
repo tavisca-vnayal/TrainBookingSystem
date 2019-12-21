@@ -1,14 +1,15 @@
 package com.tavisca.OnlineTrainBookingSystem.ticket.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "ticket")
-public class Ticket {
+public class Ticket  {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int pnr;
 
     private int userId;

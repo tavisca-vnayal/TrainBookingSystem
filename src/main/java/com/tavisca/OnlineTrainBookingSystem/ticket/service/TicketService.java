@@ -14,6 +14,9 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepo;
 
+    @Autowired
+    private BookingTicketService bookingTicketService;
+
     public boolean isEmpty(){
         return ticketRepo.findAll().isEmpty();
     }
@@ -29,6 +32,12 @@ public class TicketService {
     }
 
     public String addTicket(Ticket ticket) {
+
+
+        System.out.println("---------------------------------------------------------");
+        System.out.println(bookingTicketService.bookTicket(ticket));
+
+        System.out.println("---------------------------------------------------------");
         ticketRepo.save(ticket);
         return "Added";
     }

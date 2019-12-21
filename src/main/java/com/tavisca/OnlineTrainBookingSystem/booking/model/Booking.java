@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
@@ -18,7 +17,6 @@ public class Booking {
     @Id
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="UTC")
     private LocalDate date;
-
     private int noOfConfirmedTicket = 0;
     private int noOfRACTicket = 0;
     private int noOfWaitingListTicket = 0;
