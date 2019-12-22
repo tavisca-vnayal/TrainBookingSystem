@@ -1,20 +1,27 @@
 package com.tavisca.OnlineTrainBookingSystem.train.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.tavisca.OnlineTrainBookingSystem.route.model.Route;
+import com.tavisca.OnlineTrainBookingSystem.train.model.SearchForm;
 import com.tavisca.OnlineTrainBookingSystem.train.model.Train;
 import com.tavisca.OnlineTrainBookingSystem.train.service.TrainService;
+import com.tavisca.OnlineTrainBookingSystem.route.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TrainController {
     @Autowired
     private TrainService trainService;
+    @Autowired
+    private RouteService routeService;
 
     @GetMapping(path = "/")
     public String hello() {
@@ -63,6 +70,28 @@ public class TrainController {
             return new ResponseEntity<>(HttpStatus.OK);
         } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(path = "/search_trains_between")
+    public ResponseEntity<?> searchTrainsBetweenStations(@RequestBody SearchForm searchForm) {
+        Optional<List<Route>> listOfTrainsViaSource = routeService.getTrainNoByStationName(searchForm.getSource());
+        Optional<List<Route>> listOfTrainsViaDestination = routeService.getTrainNoByStationName(searchForm.getDestination());
+        if (!listOfTrainsViaSource.isPresent() || !listOfTrainsViaDestination.isPresent()) {
+            return new ResponseEntity<>("No Direct Trains Found", HttpStatus.NOT_FOUND);
+        }
+        else{
+            List<Integer> listOfTrainsBetweenSourceAndDestStations = new ArrayList<>();
+            for (Route sourceRoute: listOfTrainsViaSource.get()
+            ) {
+                for (Route destRoute: listOfTrainsViaDestination.get()
+                ) {
+                    if ((sourceRoute.getTrainNo() == destRoute.getTrainNo()) && sourceRoute.getArrivalTime().isBefore(destRoute.getArrivalTime())) {
+                        listOfTrainsBetweenSourceAndDestStations.add(sourceRoute.getTrainNo());
+                    }
+                }
+            }
+            return new ResponseEntity<>(listOfTrainsBetweenSourceAndDestStations, HttpStatus.OK);
+        }
     }
 
 }
