@@ -59,6 +59,7 @@ public class BookingTicketService {
         int destRoute = getRouteFromStationName(ticket.getTrainNo(), ticket.getDestination());
 
         int capacity = getTotalSeatsInTrain(ticket.getTrainNo());
+
         int seatsRequired = ticket.getSeats().size();
 
         List<Booking> requiredBookings = bookings.stream().filter(booking ->
@@ -102,8 +103,6 @@ public class BookingTicketService {
                     seat.setSeatIndex(ordinal.getAndIncrement());
                 }
         );
-//        System.out.println(allRouteNo);
-//        System.out.println(bookings);
 
         return "CNF";
     }
