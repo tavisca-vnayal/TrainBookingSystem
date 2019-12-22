@@ -2,18 +2,14 @@ package com.tavisca.OnlineTrainBookingSystem.ticket.service;
 import com.tavisca.OnlineTrainBookingSystem.availability.service.AvailabilityService;
 import com.tavisca.OnlineTrainBookingSystem.booking.model.Booking;
 import com.tavisca.OnlineTrainBookingSystem.booking.service.BookingService;
-import com.tavisca.OnlineTrainBookingSystem.route.model.Route;
 import com.tavisca.OnlineTrainBookingSystem.route.service.RouteService;
 import com.tavisca.OnlineTrainBookingSystem.ticket.model.Ticket;
 import com.tavisca.OnlineTrainBookingSystem.train.service.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -48,13 +44,13 @@ public class BookingTicketService {
                 ).collect(Collectors.toList());
 
         int maxConfirmedBooking = requiredBookings.stream().max(Comparator.comparingInt
-                        (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+                        (Booking::getNoOfConfirmedTicket)).get().getNoOfConfirmedTicket();
 
         int maxRacBooking = requiredBookings.stream().max(Comparator.comparingInt
-                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+                (Booking::getNoOfConfirmedTicket)).get().getNoOfConfirmedTicket();
 
         int maxWaitListBooking = requiredBookings.stream().max(Comparator.comparingInt
-                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+                (Booking::getNoOfConfirmedTicket)).get().getNoOfConfirmedTicket();
 
         if(maxConfirmedBooking + seatsRequired > capacity){
 
@@ -89,10 +85,10 @@ public class BookingTicketService {
     }
 
     private void handleConfirmBooking(int seatsRequired, Booking booking) {
-        int noOfConfirmedTicket = booking.getNoOfConfrimedTicket();
+        int noOfConfirmedTicket = booking.getNoOfConfirmedTicket();
 
         Booking tempBooking = booking;
-        tempBooking.setNoOfConfrimedTicket(
+        tempBooking.setNoOfConfirmedTicket(
                 noOfConfirmedTicket + seatsRequired);
 
         bookingService.updateBooking(tempBooking);
@@ -102,7 +98,7 @@ public class BookingTicketService {
         int noOfRACTicket = booking.getNoOfRACTicket();
 
         Booking tempBooking = booking;
-        tempBooking.setNoOfConfrimedTicket(
+        tempBooking.setNoOfConfirmedTicket(
                 noOfRACTicket + seatsRequired);
 
         bookingService.updateBooking(tempBooking);
@@ -112,7 +108,7 @@ public class BookingTicketService {
         int noOfWaitingListTicket = booking.getNoOfWaitingListTicket();
 
         Booking tempBooking = booking;
-        tempBooking.setNoOfConfrimedTicket(
+        tempBooking.setNoOfConfirmedTicket(
                 noOfWaitingListTicket + seatsRequired);
 
         bookingService.updateBooking(tempBooking);

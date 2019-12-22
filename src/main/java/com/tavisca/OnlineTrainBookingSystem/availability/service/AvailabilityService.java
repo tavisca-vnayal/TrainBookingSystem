@@ -75,26 +75,30 @@ public class AvailabilityService {
 
     private Optional<String> getStatus(int capacity, List<Booking> requiredBookings) {
 
-        int racCapacity = capacity * 25/100;
-
-        int cnfCapacity = capacity - racCapacity;
+//        int racCapacity = capacity * 25/100;
+//
+//        int cnfCapacity = capacity - racCapacity;
 
         int maxConfirmedBooking = requiredBookings.stream().max(Comparator.comparingInt
-                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+                (Booking::getNoOfConfirmedTicket)).get().getNoOfConfirmedTicket();
 
-        if(maxConfirmedBooking <= cnfCapacity){
-            return Optional.of("CNF " + (cnfCapacity - maxConfirmedBooking));
+        if(maxConfirmedBooking <= capacity){
+            return Optional.of("CNF " + (capacity - maxConfirmedBooking));
         }
 
+//        if(maxConfirmedBooking <= cnfCapacity){
+//            return Optional.of("CNF " + (cnfCapacity - maxConfirmedBooking));
+//        }
+
 //        int maxRacBooking = requiredBookings.stream().max(Comparator.comparingInt
-//                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+//                (Booking::getNoOfConfirmedTicket)).get().getNoOfConfirmedTicket();
 //
 //        if(maxRacBooking <= racCapacity){
 //            return Optional.of("RAC " + maxRacBooking);
 //        }
 //
 //        int maxWaitListBooking = requiredBookings.stream().max(Comparator.comparingInt
-//                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+//                (Booking::getNoOfConfirmedTicket)).get().getNoOfConfirmedTicket();
 //
 //        if(maxWaitListBooking <= capacity){
 //            return Optional.of("WL " + maxConfirmedBooking);

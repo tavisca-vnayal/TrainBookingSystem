@@ -48,12 +48,12 @@ public class Booking {
         this.date = date;
     }
 
-    public int getNoOfConfrimedTicket() {
+    public int getNoOfConfirmedTicket() {
         return noOfConfirmedTicket;
     }
 
-    public void setNoOfConfrimedTicket(int noOfConfrimedTicket) {
-        this.noOfConfirmedTicket = noOfConfrimedTicket;
+    public void setNoOfConfirmedTicket(int noOfConfirmedTicket) {
+        this.noOfConfirmedTicket = noOfConfirmedTicket;
     }
 
     public int getNoOfRACTicket() {
