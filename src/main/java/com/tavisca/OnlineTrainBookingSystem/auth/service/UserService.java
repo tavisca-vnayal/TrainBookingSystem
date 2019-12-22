@@ -30,16 +30,16 @@ public class UserService {
         return user.getPassword().equals(inputpswd) ? true : false;
     }
 
-    public String checkValidityOfUser(LoginForm loginForm) {
+    public User checkValidityOfUser(LoginForm loginForm) {
         Optional<User> userObject = Optional.ofNullable(userRepository.findByUsername(loginForm.getUsername()));
         if (userObject.isPresent()) {
             if (validateUser(userObject.get(), loginForm.getPassword())) {
-                return checkRole(userObject.get());
+                return userObject.get();
             }
             else {
-                return "invalid";
+                return null;
             }
         }
-        return "invalid";
+        return null;
     }
 }

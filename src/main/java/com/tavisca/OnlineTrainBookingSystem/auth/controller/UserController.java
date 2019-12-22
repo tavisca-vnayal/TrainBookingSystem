@@ -1,6 +1,7 @@
 package com.tavisca.OnlineTrainBookingSystem.auth.controller;
 
 import com.tavisca.OnlineTrainBookingSystem.auth.model.LoginForm;
+import com.tavisca.OnlineTrainBookingSystem.auth.model.User;
 import com.tavisca.OnlineTrainBookingSystem.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginForm loginForm) {
+    public User login(@RequestBody LoginForm loginForm) {
         return userService.checkValidityOfUser(loginForm);
     }
 }
