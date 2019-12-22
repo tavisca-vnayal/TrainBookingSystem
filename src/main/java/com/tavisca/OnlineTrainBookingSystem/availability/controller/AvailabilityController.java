@@ -13,7 +13,7 @@ public class AvailabilityController {
     @Autowired
     AvailabilityService availabilityService;
 
-    @GetMapping("/availability/{trainNo}")
+    @PostMapping("/availability/{trainNo}")
     public ResponseEntity<String> getAvailability
             (@PathVariable("trainNo") int trainNo, @RequestBody SearchForm searchForm){
         return new ResponseEntity<>

@@ -8,6 +8,7 @@ import com.tavisca.OnlineTrainBookingSystem.train.service.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -73,11 +74,14 @@ public class BookingTicketService {
 
         System.out.println(maxConfirmedBooking);
 
-        AtomicInteger ordinal = new AtomicInteger(maxConfirmedBooking+1);
+        List<Integer> availableSeats = availabilityService.getAvailableSeats(ticket.getTrainNo(),
+                ticket.getDate());
+
+        AtomicInteger ordinal = new AtomicInteger(0);
         ticket.getSeats().stream().forEach(
                 seat -> {
                     seat.setSeatStatus("CNF");
-                    seat.setSeatIndex(ordinal.getAndIncrement());
+                    seat.setSeatIndex(availableSeats.get(ordinal.getAndIncrement()));
                 }
         );
 

@@ -72,7 +72,7 @@ public class TrainController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(path = "/search_trains_between")
+    @PostMapping(path = "/search_trains_between")
     public ResponseEntity<?> searchTrainsBetweenStations(@RequestBody SearchForm searchForm) {
         List<Train> listOfTrainsBetweenSourceAndDestStations = trainService.searchTrainsBetween(searchForm.getSource(), searchForm.getDestination());
         if (listOfTrainsBetweenSourceAndDestStations.isEmpty()) {

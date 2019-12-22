@@ -1,9 +1,11 @@
 package com.tavisca.OnlineTrainBookingSystem.availability.service;
 
+import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
 import com.tavisca.OnlineTrainBookingSystem.booking.model.Booking;
 import com.tavisca.OnlineTrainBookingSystem.booking.service.BookingService;
 import com.tavisca.OnlineTrainBookingSystem.route.model.Route;
 import com.tavisca.OnlineTrainBookingSystem.route.service.RouteService;
+import com.tavisca.OnlineTrainBookingSystem.ticket.service.TicketService;
 import com.tavisca.OnlineTrainBookingSystem.train.model.SearchForm;
 import com.tavisca.OnlineTrainBookingSystem.train.service.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 public class AvailabilityService {
@@ -27,6 +31,31 @@ public class AvailabilityService {
 
     @Autowired
     private TrainService trainService;
+
+    @Autowired
+    private TicketService ticketService;
+
+    public List<Integer> getAvailableSeats(int trainNo, LocalDate date){
+
+        int capacity = getTotalSeatsInTrain(trainNo);
+
+        List<Integer> availableSeats = IntStream.rangeClosed(1, capacity)
+                .boxed().collect(Collectors.toList());
+
+        if(!ticketService.getTicketByTrainNoAndDate(trainNo, date).isPresent())
+            return availableSeats;
+
+        ticketService.getTicketByTrainNoAndDate
+                (trainNo, date).get().stream().forEach(ticket ->
+                    ticket.getSeats().stream().filter(seat -> seat.getSeatIndex() != -1).forEach(seat ->
+                        availableSeats.remove(new Integer(seat.getSeatIndex()))
+                        )
+        );
+
+        System.out.println("availableSeats  " + availableSeats);
+
+        return availableSeats;
+    }
 
     public List<Integer> getRoutes(int trainNo){
         Optional<List<Route>> trainStoppages =
