@@ -74,24 +74,12 @@ public class TrainController {
 
     @GetMapping(path = "/search_trains_between")
     public ResponseEntity<?> searchTrainsBetweenStations(@RequestBody SearchForm searchForm) {
-        Optional<List<Route>> listOfTrainsViaSource = routeService.getTrainNoByStationName(searchForm.getSource());
-        Optional<List<Route>> listOfTrainsViaDestination = routeService.getTrainNoByStationName(searchForm.getDestination());
-        if (!listOfTrainsViaSource.isPresent() || !listOfTrainsViaDestination.isPresent()) {
+        List<Train> listOfTrainsBetweenSourceAndDestStations = trainService.searchTrainsBetween(searchForm.getSource(), searchForm.getDestination());
+        if (listOfTrainsBetweenSourceAndDestStations.isEmpty()) {
             return new ResponseEntity<>("No Direct Trains Found", HttpStatus.NOT_FOUND);
         }
-        else{
-            List<Integer> listOfTrainsBetweenSourceAndDestStations = new ArrayList<>();
-            for (Route sourceRoute: listOfTrainsViaSource.get()
-            ) {
-                for (Route destRoute: listOfTrainsViaDestination.get()
-                ) {
-                    if ((sourceRoute.getTrainNo() == destRoute.getTrainNo()) && sourceRoute.getArrivalTime().isBefore(destRoute.getArrivalTime())) {
-                        listOfTrainsBetweenSourceAndDestStations.add(sourceRoute.getTrainNo());
-                    }
-                }
-            }
+        else {
             return new ResponseEntity<>(listOfTrainsBetweenSourceAndDestStations, HttpStatus.OK);
         }
     }
-
 }
