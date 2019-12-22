@@ -25,6 +25,14 @@ public class RouteController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping(path = "/stations")
+    public ResponseEntity<List<String>> getStations() {
+        if (!routeService.isEmpty())
+            return new ResponseEntity<>(routeService.getStations(), HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @GetMapping(path = "/route/{id}")
     public ResponseEntity<?> getRouteById(@PathVariable("id") int routeId) {
         if (routeService.getRouteById(routeId).isPresent())

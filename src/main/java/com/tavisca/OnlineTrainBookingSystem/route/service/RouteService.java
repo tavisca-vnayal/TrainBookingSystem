@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RouteService {
@@ -29,7 +31,9 @@ public class RouteService {
     }
 
     public String addRoute(Route route) {
+        System.out.println(route);
         routeRepo.save(route);
+        System.out.println(route);
         return "Added";
     }
 
@@ -53,5 +57,13 @@ public class RouteService {
 
     public Optional<Route> getRouteByTrainNoAndStationName(int trainNo, String stationName) {
         return routeRepo.findByTrainNoAndStationName(trainNo, stationName);
+    }
+
+    public List<String> getStations() {
+        List<Route> routes = getRoutes();
+        Set<String> uniqueRoutes = routes.stream().map(
+                route -> route.getStationName()).collect(Collectors.toSet());
+
+        return uniqueRoutes.stream().collect(Collectors.toList());
     }
 }

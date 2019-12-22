@@ -65,36 +65,37 @@ public class BookingTicketService {
                         (booking.getRouteId() >= srcRoute && booking.getRouteId() < destRoute)
                 ).collect(Collectors.toList());
 
-        int maxBooking = requiredBookings.stream().max(Comparator.comparingInt
+        int maxConfirmedBooking = requiredBookings.stream().max(Comparator.comparingInt
                         (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
 
-        if(maxBooking + seatsRequired >= capacity){
+        int maxRacBooking = requiredBookings.stream().max(Comparator.comparingInt
+                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+
+        int maxWaitListBooking = requiredBookings.stream().max(Comparator.comparingInt
+                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+
+        if(maxConfirmedBooking + seatsRequired > capacity){
+
+            int remainingConfirmedSeats = capacity - maxConfirmedBooking;
+            int racBooking = seatsRequired - remainingConfirmedSeats;
+
+            int racCapacity = capacity * 25/100;
+
+            if(maxRacBooking + racBooking > racCapacity){
+                int remainingRacSeats = racCapacity - maxRacBooking;
+                int waitingListBooking = racBooking - remainingRacSeats;
+            }
             //Handle RAC and WL
             return "RAC or WL";
         }
 
-        boolean flag = false;
-        for(Booking booking: bookings){
-            if(booking.getRouteId() == destRoute)
-                break;
-
-            if(booking.getRouteId() == srcRoute)
-                flag = true;
-
-            if(flag == true){
-                int noOfConfrimedTicket = booking.getNoOfConfrimedTicket();
-                int noOfRACTicket = booking.getNoOfRACTicket();
-                int noOfWaitingListTicket = booking.getNoOfWaitingListTicket();
-
-                Booking tempBooking = booking;
-                tempBooking.setNoOfConfrimedTicket(
-                        tempBooking.getNoOfConfrimedTicket() + seatsRequired);
-
-                bookingService.updateBooking(tempBooking);
-            }
+        for(Booking booking: requiredBookings){
+            handleConfirmBooking(seatsRequired, booking);
         }
 
-        AtomicInteger ordinal = new AtomicInteger(maxBooking);
+        System.out.println(maxConfirmedBooking);
+
+        AtomicInteger ordinal = new AtomicInteger(maxConfirmedBooking);
         ticket.getSeats().stream().forEach(
                 seat -> {
                     seat.setSeatStatus("CNF");
@@ -105,5 +106,35 @@ public class BookingTicketService {
 //        System.out.println(bookings);
 
         return "CNF";
+    }
+
+    private void handleConfirmBooking(int seatsRequired, Booking booking) {
+        int noOfConfirmedTicket = booking.getNoOfConfrimedTicket();
+
+        Booking tempBooking = booking;
+        tempBooking.setNoOfConfrimedTicket(
+                noOfConfirmedTicket + seatsRequired);
+
+        bookingService.updateBooking(tempBooking);
+    }
+
+    private void handleRacBooking(int seatsRequired, Booking booking) {
+        int noOfRACTicket = booking.getNoOfRACTicket();
+
+        Booking tempBooking = booking;
+        tempBooking.setNoOfConfrimedTicket(
+                noOfRACTicket + seatsRequired);
+
+        bookingService.updateBooking(tempBooking);
+    }
+
+    private void handleWaitingListBooking(int seatsRequired, Booking booking) {
+        int noOfWaitingListTicket = booking.getNoOfWaitingListTicket();
+
+        Booking tempBooking = booking;
+        tempBooking.setNoOfConfrimedTicket(
+                noOfWaitingListTicket + seatsRequired);
+
+        bookingService.updateBooking(tempBooking);
     }
 }
