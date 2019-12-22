@@ -1,11 +1,14 @@
 package com.tavisca.OnlineTrainBookingSystem.route.service;
 
+import com.tavisca.OnlineTrainBookingSystem.booking.model.Booking;
+import com.tavisca.OnlineTrainBookingSystem.booking.service.BookingService;
 import com.tavisca.OnlineTrainBookingSystem.route.dao.RouteRepository;
 import com.tavisca.OnlineTrainBookingSystem.route.model.Route;
 import com.tavisca.OnlineTrainBookingSystem.train.model.Train;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -15,6 +18,9 @@ import java.util.stream.Collectors;
 public class RouteService {
     @Autowired
     private RouteRepository routeRepo;
+
+    @Autowired
+    private BookingService bookingService;
 
     public boolean isEmpty(){
         return routeRepo.findAll().isEmpty();
@@ -31,9 +37,18 @@ public class RouteService {
     }
 
     public String addRoute(Route route) {
-        System.out.println(route);
         routeRepo.save(route);
         System.out.println(route);
+
+        LocalDate date = route.getArrivalTime().toLocalDate();
+        int routeId = route.getRouteId();
+
+        Booking booking = new Booking();
+        booking.setDate(date);
+        booking.setRouteId(routeId);
+
+        bookingService.addBooking(booking);
+
         return "Added";
     }
 

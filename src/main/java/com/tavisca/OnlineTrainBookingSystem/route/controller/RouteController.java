@@ -80,8 +80,6 @@ public class RouteController {
     @PostMapping(path = "/route")
     public ResponseEntity<?> addRoute(@RequestBody Route route) {
 
-        System.out.println(route);
-
         routeService.addRoute(route);
         if ((routeService.getRouteById(route.getRouteId()).isPresent()))
             return new ResponseEntity<>(route, HttpStatus.CREATED);
