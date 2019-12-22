@@ -1,4 +1,5 @@
 package com.tavisca.OnlineTrainBookingSystem.ticket.service;
+import com.tavisca.OnlineTrainBookingSystem.availability.service.AvailabilityService;
 import com.tavisca.OnlineTrainBookingSystem.booking.model.Booking;
 import com.tavisca.OnlineTrainBookingSystem.booking.service.BookingService;
 import com.tavisca.OnlineTrainBookingSystem.route.model.Route;
@@ -27,38 +28,18 @@ public class BookingTicketService {
     @Autowired
     private TrainService trainService;
 
-    private List<Integer> getRoutes(int trainNo){
-        Optional<List<Route>> trainStoppages =
-                routeService.getRouteByTrainNo(trainNo);
+    @Autowired
+    private AvailabilityService availabilityService;
 
-        //if(trainStoppages.isPresent())
-        return trainStoppages.get().stream().map(Route::getRouteId).collect(Collectors.toList());
-    }
-
-    private List<Booking> getBookingsByRouteAndDate(List<Integer> routes, LocalDate date){
-
-        List<Booking> bookings = new ArrayList<>();
-        routes.forEach(route ->
-                bookings.add(bookingService.getBookingByRouteIdAndDate(route, date).get()));
-        return bookings;
-    }
-
-    private int getRouteFromStationName(int trainNo, String source) {
-        return routeService.getRouteByTrainNoAndStationName(trainNo, source).get().getRouteId();
-    }
-
-    private int getTotalSeatsInTrain(int trainNo){
-        return trainService.getTrainById(trainNo).get().getCapacity();
-    }
 
     public String bookTicket(Ticket ticket){
-        List<Integer> allRouteNo = getRoutes(ticket.getTrainNo());
-        List<Booking> bookings = getBookingsByRouteAndDate(allRouteNo, ticket.getDate());
+        List<Integer> allRouteNo = availabilityService.getRoutes(ticket.getTrainNo());
+        List<Booking> bookings = availabilityService.getBookingsByRouteAndDate(allRouteNo, ticket.getDate());
 
-        int srcRoute = getRouteFromStationName(ticket.getTrainNo(), ticket.getSource());
-        int destRoute = getRouteFromStationName(ticket.getTrainNo(), ticket.getDestination());
+        int srcRoute = availabilityService.getRouteFromStationName(ticket.getTrainNo(), ticket.getSource());
+        int destRoute = availabilityService.getRouteFromStationName(ticket.getTrainNo(), ticket.getDestination());
 
-        int capacity = getTotalSeatsInTrain(ticket.getTrainNo());
+        int capacity = availabilityService.getTotalSeatsInTrain(ticket.getTrainNo());
 
         int seatsRequired = ticket.getSeats().size();
 

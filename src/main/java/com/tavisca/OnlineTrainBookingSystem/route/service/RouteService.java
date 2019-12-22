@@ -38,7 +38,7 @@ public class RouteService {
 
     public String addRoute(Route route) {
         routeRepo.save(route);
-        System.out.println(route);
+        //System.out.println(route);
 
         LocalDate date = route.getArrivalTime().toLocalDate();
         int routeId = route.getRouteId();
@@ -47,8 +47,9 @@ public class RouteService {
         booking.setDate(date);
         booking.setRouteId(routeId);
 
-        bookingService.addBooking(booking);
+        System.out.println(booking);
 
+        bookingService.addBooking(booking);
         return "Added";
     }
 

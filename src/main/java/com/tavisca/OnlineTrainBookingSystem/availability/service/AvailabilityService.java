@@ -7,6 +7,7 @@ import com.tavisca.OnlineTrainBookingSystem.route.service.RouteService;
 import com.tavisca.OnlineTrainBookingSystem.train.model.SearchForm;
 import com.tavisca.OnlineTrainBookingSystem.train.service.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class AvailabilityService {
 
     @Autowired
@@ -26,7 +28,7 @@ public class AvailabilityService {
     @Autowired
     private TrainService trainService;
 
-    private List<Integer> getRoutes(int trainNo){
+    public List<Integer> getRoutes(int trainNo){
         Optional<List<Route>> trainStoppages =
                 routeService.getRouteByTrainNo(trainNo);
 
@@ -34,7 +36,7 @@ public class AvailabilityService {
         return trainStoppages.get().stream().map(Route::getRouteId).collect(Collectors.toList());
     }
 
-    private List<Booking> getBookingsByRouteAndDate(List<Integer> routes, LocalDate date){
+    public List<Booking> getBookingsByRouteAndDate(List<Integer> routes, LocalDate date){
 
         List<Booking> bookings = new ArrayList<>();
         routes.forEach(route ->
@@ -42,11 +44,11 @@ public class AvailabilityService {
         return bookings;
     }
 
-    private int getRouteFromStationName(int trainNo, String source) {
+    public int getRouteFromStationName(int trainNo, String source) {
         return routeService.getRouteByTrainNoAndStationName(trainNo, source).get().getRouteId();
     }
 
-    private int getTotalSeatsInTrain(int trainNo){
+    public int getTotalSeatsInTrain(int trainNo){
         return trainService.getTrainById(trainNo).get().getCapacity();
     }
 
@@ -67,32 +69,37 @@ public class AvailabilityService {
                 (booking.getRouteId() >= srcRoute && booking.getRouteId() < destRoute)
         ).collect(Collectors.toList());
 
-        int maxConfirmedBooking = requiredBookings.stream().max(Comparator.comparingInt
-                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+        return getStatus(capacity, requiredBookings);
+
+    }
+
+    private Optional<String> getStatus(int capacity, List<Booking> requiredBookings) {
 
         int racCapacity = capacity * 25/100;
 
         int cnfCapacity = capacity - racCapacity;
 
+        int maxConfirmedBooking = requiredBookings.stream().max(Comparator.comparingInt
+                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+
         if(maxConfirmedBooking <= cnfCapacity){
             return Optional.of("CNF " + (cnfCapacity - maxConfirmedBooking));
         }
 
-        int maxRacBooking = requiredBookings.stream().max(Comparator.comparingInt
-                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
-
-        if(maxRacBooking <= racCapacity){
-            return Optional.of("RAC " + maxRacBooking);
-        }
-
-        int maxWaitListBooking = requiredBookings.stream().max(Comparator.comparingInt
-                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
-
-        if(maxWaitListBooking <= capacity){
-            return Optional.of("WL " + maxConfirmedBooking);
-        }
+//        int maxRacBooking = requiredBookings.stream().max(Comparator.comparingInt
+//                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+//
+//        if(maxRacBooking <= racCapacity){
+//            return Optional.of("RAC " + maxRacBooking);
+//        }
+//
+//        int maxWaitListBooking = requiredBookings.stream().max(Comparator.comparingInt
+//                (Booking::getNoOfConfrimedTicket)).get().getNoOfConfrimedTicket();
+//
+//        if(maxWaitListBooking <= capacity){
+//            return Optional.of("WL " + maxConfirmedBooking);
+//        }
 
         return Optional.of("REGRET");
-
     }
 }

@@ -42,6 +42,9 @@ public class BookingService {
     }
 
     public String addBooking(Booking booking) {
+
+        System.out.println("addBooking " + booking);
+
         routeRepo.save(booking);
         return "Added";
     }
