@@ -73,7 +73,7 @@ public class BookingTicketService {
 
         System.out.println(maxConfirmedBooking);
 
-        AtomicInteger ordinal = new AtomicInteger(maxConfirmedBooking);
+        AtomicInteger ordinal = new AtomicInteger(maxConfirmedBooking+1);
         ticket.getSeats().stream().forEach(
                 seat -> {
                     seat.setSeatStatus("CNF");

@@ -3,6 +3,7 @@ package com.tavisca.OnlineTrainBookingSystem.ticket.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity

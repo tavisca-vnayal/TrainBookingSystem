@@ -90,6 +90,7 @@ public class RouteController {
     @PutMapping(path = "/route/{id}")
     public ResponseEntity<?> updateRoute(@PathVariable("id") int routeId, @RequestBody Route route){
         if((routeService.getRouteById(routeId).isPresent())) {
+            route.setRouteId(routeId);
             routeService.updateRoute(route);
             return new ResponseEntity<>(route, HttpStatus.CREATED);
         }
